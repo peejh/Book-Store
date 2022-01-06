@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context privileged="true" reloadable="true">
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <Manager pathname="" />
+    <Resource 
+    	name="jdbc/BookHub"
+    	factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+    	type="javax.sql.DataSource"
+    	driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+    	url="jdbc:derby:./BOOKSTORE_DB"
+    />
+    <ResourceLink global="jdbc/BookHub" name="jdbc/BookHub" type="javax.sql.DataSource" />
+</Context>

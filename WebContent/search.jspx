@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+		  xmlns:c="http://java.sun.com/jsp/jstl/core"
+		  xmlns:f="http://java.sun.com/jsp/jstl/fmt">
+	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
+		pageEncoding="ISO-8859-1" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>EECS 4413 Project</title>
+  
+      <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">;</script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">;</script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">;</script>
+
+	<style>
+		.breadcrumb-item+.breadcrumb-item::before {
+			content: '|'	
+		}
+	</style>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark mb-0">
+	<div class="container">				
+		<a href="welcome" class="navbar-brand d-none d-sm-inline-block">
+			<img src="res/img/site/bookhub.logo.sm.png" alt="bookhub_logo" />
+		</a>
+	
+	    <ul class="nav navbar-nav navbar-right navbar-expand">
+		<form class="form-inline" action="search" method="GET">
+			<input id="search" name="search" class="form-control w-90 mr-1" type="text" placeholder="Search"></input>
+			<button for="search" class="btn btn-outline-light d-none d-sm-inline mr-4" type="submit">Go</button>
+		</form>
+		
+			<c:choose>	
+				<c:when test = "${userLoggedIn eq true}">
+				
+					<div class="dropdown">
+						<a class="nav-item nav-link dropdown-toggle mr-4" data-toggle="dropdown" id="userDropdown"
+							aria-haspopup="true" aria-expanded="false" href="#">
+							Hello, ${user.getFirstName()}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="userDropdown">
+							<a class="dropdown-item" href="#">My Profile</a>
+							<a class="dropdown-item" href="myorders">My Orders</a>						
+							<c:if test = "${user.isOwner() eq true}">
+								<a class="dropdown-item" href="analytics">Analytics</a>
+							</c:if>								
+						</div>						
+					</div>
+					
+					<form class="form-inline" action="cart" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline mr-4" type="submit">Cart</button>
+					</form>
+					
+					<form class="form-inline" action="logout" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline" type="submit">Sign Out</button>
+					</form>
+
+				</c:when>
+				
+				<c:otherwise>
+
+					<form class="form-inline" action="login" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline mr-4" type="submit">Log In</button>
+					</form>
+					
+					<form class="form-inline" action="signup" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline" type="submit">Sign Up</button>
+					</form>
+
+				</c:otherwise>	
+			</c:choose>
+			
+	    </ul>		
+	</div>
+</nav>
+
+<nav class="navbar navbar-dark bg-dark py-0 navbar-expand-md">
+	<div class="container">		
+		<button class="navbar-toggler" type="button"
+			data-toggle="collapse" data-target="#myTogglerNav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse d-md-block" id="myTogglerNav">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link" href="catalog?category=Math">Math</a>
+				<a class="nav-item nav-link" href="catalog?category=Science">Science</a>
+				<a class="nav-item nav-link" href="catalog?category=Engineering">Engineering</a>
+				<a class="nav-item nav-link" href="catalog?category=Programming">Programming</a>
+				<a class="nav-item nav-link" href="catalog?category=History">History</a>
+				<a class="nav-item nav-link" href="catalog?category=Art">Art</a>
+				<a class="nav-item nav-link" href="catalog?category=Fiction">Fiction</a>
+				<a class="nav-item nav-link" href="catalog?category=NonFiction">Non-fiction</a>
+				<a class="nav-item nav-link" href="catalog?category=SelfHelp">Self-help</a>
+			</div>
+		</div>	
+	</div>
+</nav>
+
+<div class="row bg-white align-items-center py-5 mb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+			
+			<c:choose>
+			
+			<c:when test="${searchSuccess eq true}">
+				<h3>You searched for <span class="font-italic">${searchKeywords}</span></h3>
+				<br />
+				<section>
+					<c:forEach items="${searchedBooks}" var="search">
+						<section class="media mb-4 bg-light shadow p-2" id="${search.key}">
+							<img class="img-fluid mr-4" style="width: 100px;" src="res/img/covers/${search.key}.jpg" />
+							<div class="media-body align-self-center">
+								<div class="row">
+									<div class="col col-10 align-self-center">						
+										<h5>${search.value.getTitle()}</h5>
+										<h6 class="font-italic">${search.value.getAuthor()}</h6>
+										<p class="p-0">${search.value.getDescriptionSample()}</p>											
+									</div>
+									<div class="col col-2 align-self-center">
+										<row class="row">
+											<form action="cart" method="post">
+												<input type="number" class="d-none" name="isbn" id="isbn" value="${search.value.getIsbn()}"></input>
+												<button class="btn btn-primary ml-1" type="submit" id="addToCart" name="addToCart">Add to cart</button>
+											</form>									
+										</row>
+									</div>							
+								</div>
+							</div>
+						</section>		
+					</c:forEach>						
+				</section>								
+			</c:when>
+			
+			<c:otherwise>
+				<h3><span class="font-italic text-dark">There are no search results for 
+					<span class="font-weight-bold">${searchKeywords}</span></span></h3>	
+				<br /><br />
+				<div class="row">
+					<div class="col h-75 align-items-center text-center">
+						<img class="img-fluid" alt="search failed" src="res/img/site/nada.gif" />
+					</div>
+				</div>						
+			</c:otherwise>
+
+			</c:choose>
+
+			</div>			
+		</div>		
+	</div>
+</div>
+
+<footer>
+	<div class="container-fluid mt-5 bg-white">
+		<div class="row justify-content-center d-none d-md-flex">
+			<ul class="breadcrumb bg-white">
+				<li class="breadcrumb-item">Syed Usman</li>
+				<li class="breadcrumb-item">Jonas Laya</li>
+				<li class="breadcrumb-item">Yassin Mohammed</li>
+				<li class="breadcrumb-item">Paul Sison</li>
+			</ul>			
+		</div>
+		<div class="row justify-content-center">
+			<img class="img-fluid" alt="yorku_lassonde_logo" src="res/img/site/yorkLassonde.logo.png" />		
+		</div>
+	</div>
+</footer>
+
+
+</body>
+</html>
+</jsp:root>

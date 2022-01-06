@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+		  xmlns:c="http://java.sun.com/jsp/jstl/core"
+		  xmlns:f="http://java.sun.com/jsp/jstl/fmt">
+	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
+		pageEncoding="ISO-8859-1" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>EECS 4413 Project</title>
+  
+      <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">;</script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">;</script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">;</script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/res/mc.js">;</script>
+
+	<style>
+		.breadcrumb-item+.breadcrumb-item::before {
+			content: '|'	
+		}
+	</style>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark mb-0">
+	<div class="container">				
+		<a href="welcome" class="navbar-brand d-none d-sm-inline-block">
+			<img src="res/img/site/bookhub.logo.sm.png" alt="bookhub_logo" />
+		</a>
+	
+	    <ul class="nav navbar-nav navbar-right navbar-expand">
+		<form class="form-inline" action="search" method="GET">
+			<input id="search" name="search" class="form-control w-90 mr-1" type="text" placeholder="Search"></input>
+			<button for="search" class="btn btn-outline-light d-none d-sm-inline mr-4" type="submit">Go</button>
+		</form>
+		
+			<c:choose>	
+				<c:when test = "${userLoggedIn eq true}">
+				
+					<div class="dropdown">
+						<a class="nav-item nav-link dropdown-toggle mr-4" data-toggle="dropdown" id="userDropdown"
+							aria-haspopup="true" aria-expanded="false" href="#">
+							Hello, ${user.getFirstName()}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="userDropdown">
+							<a class="dropdown-item" href="#">My Profile</a>
+							<a class="dropdown-item" href="myorders">My Orders</a>						
+							<c:if test = "${user.isOwner() eq true}">
+								<a class="dropdown-item" href="analytics">Analytics</a>
+							</c:if>								
+						</div>						
+					</div>
+					
+					<form class="form-inline" action="cart" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline mr-4" type="submit">Cart</button>
+					</form>
+					
+					<form class="form-inline" action="logout" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline" type="submit">Sign Out</button>
+					</form>
+
+				</c:when>
+				
+				<c:otherwise>
+
+					<form class="form-inline" action="login" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline mr-4" type="submit">Log In</button>
+					</form>
+					
+					<form class="form-inline" action="signup" method="post">
+						<button class="btn btn-outline-light d-none d-sm-inline" type="submit">Sign Up</button>
+					</form>
+
+				</c:otherwise>	
+			</c:choose>
+	    </ul>		
+	</div>
+</nav>
+
+<nav class="navbar navbar-dark bg-dark py-0 navbar-expand-md">
+	<div class="container">		
+		<button class="navbar-toggler" type="button"
+			data-toggle="collapse" data-target="#myTogglerNav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse d-md-block" id="myTogglerNav">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link" href="catalog?category=Math">Math</a>
+				<a class="nav-item nav-link" href="catalog?category=Science">Science</a>
+				<a class="nav-item nav-link" href="catalog?category=Engineering">Engineering</a>
+				<a class="nav-item nav-link" href="catalog?category=Programming">Programming</a>
+				<a class="nav-item nav-link" href="catalog?category=History">History</a>
+				<a class="nav-item nav-link" href="catalog?category=Art">Art</a>
+				<a class="nav-item nav-link" href="catalog?category=Fiction">Fiction</a>
+				<a class="nav-item nav-link" href="catalog?category=NonFiction">Non-fiction</a>
+				<a class="nav-item nav-link" href="catalog?category=SelfHelp">Self-help</a>
+			</div>
+		</div>	
+	</div>
+</nav>
+
+<div class="row bg-light align-items-center py-5 mb-5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<form class="col border border-dark rounded shadow py-2" style="max-width: 400px;" method="post">
+				<FIELDSET class="form-group">
+					<legend>Create account</legend>
+					<div class="form-group">
+						<label class="form-control-label" for="email">Email</label>
+						<input class="form-control" type="text" id="email" name="email"></input>
+						<c:if test="${accountTaken eq true}">
+							<small class="form-text text-danger font-weight-bold">Account already taken</small>
+						</c:if>
+					</div>
+					<div class="form-group">
+						<label class="form-control-label" for="password">Password</label>
+						<input class="form-control" type="password" id="password" name="password"></input>
+						<!-- <small id="passwordFormat" class="form-text">Passwords must contain at least 8 characters</small> -->
+					</div>
+
+					<div class="form-group">
+						<label class="form-control-label" for="password">Password again</label>
+						<input class="form-control" type="password" id="repassword" name="repassword"></input>
+						<!-- <small id="passwordRepeat" class="form-text text-danger font-weight-bold">Password do not match</small>	 -->					
+					</div>
+					
+					<button class="btn btn-primary w-100" type="submit" name="logIn" value="true" onclick="return validateSignUp();">
+						Create your BookHub account
+					</button>
+				</FIELDSET>
+			
+				<FIELDSET>
+					<legend>Personal information</legend>				
+				
+					<div class="form-group">
+						<label class="form-control-label">Name</label>
+						<div class="form-group form-row mb-0">
+							<div class="form-group col">
+								<label class="form-control-label sr-only" for="firstName">First name</label>
+								<input class="form-control" type="text" id="firstName" name="firstName" placeholder="First Name"></input>
+							</div>
+	
+							<div class="form-group col">
+								<label class="form-control-label sr-only" for="lastName">Last name</label>
+								<input class="form-control" type="text" id="lastName" name="lastName" placeholder="Last Name"></input>
+							</div>											
+						</div>						
+					</div>
+
+					<div class="form-group">
+						<label class="form-control-label">Address</label>
+						
+						<div class="form-group form-row mb-0">
+							<div class="form-group col-6">
+								<label class="form-control-label sr-only" for="aptNo">Apartment Number</label>
+								<input class="form-control" type="number" id="aptNo" name="aptNo" placeholder="Apartment #"></input>
+							</div>
+							
+							<div class="form-group col-6">
+								<label class="form-control-label sr-only" for="streetNo">Street Number</label>
+								<input class="form-control" type="number" id="streetNo" name="streetNo" placeholder="Street #"></input>
+							</div>										
+						</div>
+						
+						<div class="form-group form-row mb-0">
+							<div class="form-group col">
+								<label class="form-control-label sr-only" for="streetName">Street name</label>
+								<input class="form-control" type="text" id="streetName" name="streetName" placeholder="Street Name"></input>
+							</div>												
+						</div>
+						
+						<div class="form-group form-row mb-0">
+							<div class="form-group col-6">
+								<label class="form-control-label sr-only" for="city">City</label>
+								<input class="form-control" type="text" id="city" name="city" placeholder="City"></input>
+							</div>
+							
+							<div class="form-group col-6">
+								<label class="form-control-label sr-only" for="province">Province/State</label>
+								<input class="form-control" type="text" id="province" name="province" placeholder="Province/State"></input>
+							</div>											
+						</div>
+												
+						<div class="form-group form-row mb-0">
+							<div class="form-group col">
+								<label class="form-control-label sr-only" for="postalCode">Postal Code</label>
+								<input class="form-control" type="text" id="postalCode" name="postalCode" placeholder="Postal code/Zip code"></input>
+							</div>											
+						</div>
+
+						<div class="form-group form-row mb-0">
+							<div class="form-group col">
+								<label class="form-control-label sr-only" for="country">Country</label>	
+								<select id="country" name="country" class="form-control">
+									<c:forEach items="${allCountry}" var="countries">
+										<option value="${countries.key}">${countries.value}</option>
+									</c:forEach>
+									<option value="${exceptCountry3Code}" selected="selected">${exceptCountryName}</option>
+	                        	</select>											
+							</div>
+	                    </div>
+					</div>
+		
+				</FIELDSET>
+			</form>
+		</div>	
+	</div>
+</div>
+
+
+<footer>
+	<div class="container-fluid mt-5 bg-white">
+		<div class="row justify-content-center d-none d-md-flex">
+			<ul class="breadcrumb bg-white">
+				<li class="breadcrumb-item">Syed Usman</li>
+				<li class="breadcrumb-item">Jonas Laya</li>
+				<li class="breadcrumb-item">Yassin Mohammed</li>
+				<li class="breadcrumb-item">Paul Sison</li>
+			</ul>			
+		</div>
+		<div class="row justify-content-center">
+			<img class="img-fluid" alt="yorku_lassonde_logo" src="res/img/site/yorkLassonde.logo.png" />		
+		</div>
+	</div>
+</footer>
+
+
+</body>
+</html>
+</jsp:root>
